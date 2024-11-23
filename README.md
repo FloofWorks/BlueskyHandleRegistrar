@@ -68,6 +68,7 @@ npm install sex
 
 [![Badge Text](https://img.shields.io/badge/Example-Badge-blue)](https://example.com)
 [![Badge Text](https://img.shields.io/badge/Example-Badge-blue)](https://example.com)
+[![Play Combat:Redux](https://via.placeholder.com/800x400?text=Play+Now)](https://get.pmd.social)
 
 
 ## Table of Contents
