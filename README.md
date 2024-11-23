@@ -41,7 +41,7 @@ npm install
 ```
 #### Generic Code Block
 ```markdown
-
+npm install sex
 ```
 
 
