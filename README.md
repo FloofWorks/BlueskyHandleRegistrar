@@ -1,8 +1,8 @@
 # Bluesky Handle Registrar
-
+---
 ### What is this?
 This is a collection of NodeJS Applications that Allow you to host a web-form, which people can fill out to register a bluesky handle on your domain.
----
+
 
 ### How does it work?
 When Bluesky Verifies any given handle, it uses one of two methods to verify.
