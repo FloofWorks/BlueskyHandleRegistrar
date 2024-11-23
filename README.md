@@ -67,6 +67,8 @@ npm install sex
 - [ ] Incomplete Task
 
 
+[![Badge Text](https://bsky.app/static/apple-touch-icon.png)](https://bsky.app/profile/pmd.social)
+[![Badge Text](https://img.shields.io/badge/Example-Badge-blue)](https://example.com)
 [![Badge Text](https://img.shields.io/badge/Example-Badge-blue)](https://example.com)
 
 
