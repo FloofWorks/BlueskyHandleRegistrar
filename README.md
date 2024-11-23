@@ -27,40 +27,54 @@ The answer? Databases!
 
 ### Backend (scary)
 Inside the backend, we have a couple of endpoints, but most importantly these:
-- / (root) 
+- / (root)
+```markdown
+npm install sex
+```
 - /handle
+```markdown
+npm install sex
+```
 - /redirect
+```markdown
+npm install sex
+```
 - /debug
+```markdown
+npm install sex
+```
 - /api/register
+```markdown
+npm install sex
+```
 - /.well-known/atproto-did
+```markdown
+npm install sex
+```
 - /api/public/registrants
+```markdown
+npm install sex
+```
 - /api/getDataByUser/:username
+```markdown
+npm install sex
+```
 - /api/getDataByDid/:did
+```markdown
+npm install sex
+```
 - /api/getDataByDomain/:domain
+```markdown
+npm install sex
+```
 - /api/getDataByHandle/:handle
-
-- [/](#root)
-- [/handle](#/handle)
-- [/redirect](#/redirect)
-- [/debug](#/debug)
-- [/api/register](#/api/register)
-- [/.well-known/atproto-did](#/.well-known/atproto-did)
-- [/api/public/registrants](#/api/public/registrants)
-- [/api/getDataByUser/:username](#/api/getDataByUser/:username)
-- [/api/getDataByDid/:did](#/api/getDataByDid/:did)
-- [/api/getDataByDomain/:domain](#/api/getDataByDomain/:domain)
-- [/api/getDataByHandle/:handle](#/api/getDataByHandle/:handle)
+```markdown
+npm install sex
+```
 
 
 
 
-
-
-
-
-#/api/getDataByHandle/:handle
-
-AAAAA
 
 # Header 1
 ## Header 2
