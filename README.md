@@ -25,6 +25,34 @@ But You want to let people register their own handles and use your domain for th
 The answer? Databases!
 
 
+### Backend (scary)
+Inside the backend, we have a couple of endpoints, but most importantly these:
+- / (root) 
+- /handle
+- /redirect
+- /debug
+- /api/register
+- /.well-known/atproto-did
+- /api/public/registrants
+- /api/getDataByUser/:username
+- /api/getDataByDid/:did
+- /api/getDataByDomain/:domain
+- /api/getDataByHandle/:handle
+
+- [/](#root)
+- [/handle](#/handle)
+- [/redirect](#/redirect)
+- [/debug](#/debug)
+- [/api/register](#/api/register)
+- [/.well-known/atproto-did](#/.well-known/atproto-did)
+- [/api/public/registrants](#/api/public/registrants)
+- [/api/getDataByUser/:username](#/api/getDataByUser/:username)
+- [/api/getDataByDid/:did](#/api/getDataByDid/:did)
+- [/api/getDataByDomain/:domain](#/api/getDataByDomain/:domain)
+- [/api/getDataByHandle/:handle](#/api/getDataByHandle/:handle)
+
+
+
 
 
 
