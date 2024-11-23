@@ -67,7 +67,7 @@ npm install sex
 - [ ] Incomplete Task
 
 [![Badge Text](https://img.shields.io/badge/Example-Badge-blue)](https://example.com)
-[![Badge Text](https://img.shields.io/badge/Example-Badge-blue)](https://example.com)´
+[![Badge Text](https://img.shields.io/badge/Example-Badge-blue)](https://example.com)
 
 
 ## Table of Contents
