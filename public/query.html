@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Secret Page</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            font-family: 'Lucida Console', Monaco, monospace;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            text-shadow: 0 0 10px #7bbbe0, 0 0 20px #7bbbe0, 0 0 30px #7bbbe0;
+            animation: glow 2s ease-in-out infinite alternate;
+            margin-bottom: 50px;
+        }
+        @keyframes glow {
+            from {
+                text-shadow: 0 0 10px #7bbbe0, 0 0 20px #7bbbe0, 0 0 30px #7bbbe0;
+            }
+            to {
+                text-shadow: 0 0 20px #d6ce88, 0 0 30px #d6ce88, 0 0 40px #d6ce88;
+            }
+        }
+        .button {
+            background: linear-gradient(45deg, #7bbbe0, #d6ce88);
+            border: none;
+            padding: 15px 30px;
+            color: #121212;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #7bbbe0;
+            transition: background 0.5s, box-shadow 0.5s;
+        }
+        .button:hover {
+            background: linear-gradient(45deg, #d6ce88, #7bbbe0);
+            box-shadow: 0 0 20px #d6ce88;
+        }
+        .info-button {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #e0e0e0;
+            color: #121212;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+            box-shadow: 0 0 10px #7bbbe0;
+            transition: box-shadow 0.5s;
+        }
+        .info-button:hover {
+            box-shadow: 0 0 20px #d6ce88;
+        }
+        /* Popup Styles */
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(18, 18, 18, 0.95);
+            padding: 30px;
+            border: 2px solid #7bbbe0;
+            border-radius: 10px;
+            text-align: center;
+            color: #e0e0e0;
+            font-size: 1em;
+            max-width: 80%;
+            box-shadow: 0 0 30px #7bbbe0;
+            transition: transform 0.3s ease-in-out;
+            z-index: 100;
+        }
+        .popup.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .popup h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+        .popup p {
+            margin-bottom: 20px;
+            line-height: 1.5em;
+        }
+        .popup .close-btn {
+            background: linear-gradient(45deg, #d6ce88, #7bbbe0);
+            border: none;
+            padding: 10px 20px;
+            color: #121212;
+            font-size: 1em;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 10px #d6ce88;
+            transition: 0.5s, box-shadow 0.5s;
+        }
+        .popup .close-btn:hover {
+            background: linear-gradient(45deg, #7bbbe0, #d6ce88);
+            box-shadow: 0 0 20px #7bbbe0;
+        }
+    </style>
+</head>
+<body>
+    <h1>You've found a secret,<br>rest for a while</h1>
+
+    <!-- "Let Me Go" Button -->
+    <button id="let-me-go" class="button" style="display: none;">Let Me Go</button>
+
+    <!-- "What is this?" Button -->
+    <button class="info-button" id="info-btn">?</button>
+
+    <!-- Popup Modal -->
+    <div class="popup" id="popup">
+        <h2>What is this?</h2>
+        <p>
+            Every few hundred manage to find this crack in the pipe... consider yourself lucky!
+            If you wanted to go somewhere else, simply refresh the page, or click the release button!
+            Farewell traveler!
+        </p>
+        <button class="close-btn" id="close-btn">Close</button>
+    </div>
+
+    <script>
+        // Function to get cookies
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+            return null;
+        }
+
+        // Show or hide "Let Me Go" button based on redirectUrl cookie
+        const redirectUrl = getCookie('redirectUrl');
+        const letMeGoBtn = document.getElementById('let-me-go');
+        
+        letMeGoBtn.style.display = 'block';
+        letMeGoBtn.addEventListener('click', () => {
+            // Delete the cookie after use
+            document.cookie = 'redirectUrl=; Max-Age=0; path=/';
+           location.reload();
+        });
+        
+        if (redirectUrl) {
+            letMeGoBtn.style.display = 'block';
+            letMeGoBtn.addEventListener('click', () => {
+                // Delete the cookie after use
+                document.cookie = 'redirectUrl=; Max-Age=0; path=/';
+                window.location.href = decodeURIComponent(redirectUrl);
+            });
+        }
+
+        // Popup functionality
+        const infoBtn = document.getElementById('info-btn');
+        const popup = document.getElementById('popup');
+        const closeBtn = document.getElementById('close-btn');
+
+        infoBtn.addEventListener('click', () => {
+            popup.classList.add('active');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            popup.classList.remove('active');
+        });
+
+        // Close popup when clicking outside of it
+        window.addEventListener('click', (e) => {
+            if (e.target == popup) {
+                popup.classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

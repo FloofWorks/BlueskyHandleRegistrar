@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bsky Handle Getter</title>
+    <link rel="stylesheet" href="/assets/styles/name_claim.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <div class="container">
+        <button type="button" id="help-btn" class="help-btn">HELP!</button>
+        <h1>BSky Handle Register</h1>
+
+        
+        <form id="registrationForm">
+            <div class="form-group horizontal">
+                <div class="input-wrapper">
+                    <input type="text" id="username" name="username" placeholder="Handle" required minlength="3">
+                    <div id="loading-spinner" class="spinner hidden"></div>
+                </div>
+                <div class="select-wrapper">
+                    <select id="domain" name="domain" required>
+                        <option value="pmd.social">.pmd.social</option>
+                        <option value="lucario.social">.lucario.social</option>
+                        <option value="riolu.social">.riolu.social</option>
+                        <option value="renamon.social">.renamon.social</option>
+                    </select>
+                </div>
+            </div>
+            <div id="username-status" class="status-message"></div>
+
+            <div class="form-group">
+                <label for="did">
+                    <button type="button" id="did-info-btn" class="info-btn"><i><h6>What is a DID?</h6></i></button>
+                </label>
+                <input type="text" id="did" name="did" placeholder="Your DID (starts with 'did=did:plc:...')" required>
+            </div>
+            <div id="did-status" class="status-message"></div>
+
+            <div class="form-group horizontal">
+                <div class="input-wrapper">
+                    <input type="email" id="email" name="email" placeholder="Your Email (See HELP! section)" required>
+                </div>
+            </div>
+            <div id="email-status" class="status-message"></div>
+
+            <div class="captcha-container">
+                <div class="g-recaptcha" data-sitekey="6LdsGWwqAAAAAKpRBdGpo9w28Hs_H0tGU_HwLhEC"></div>
+            </div>
+
+            <button type="submit" id="submit-btn">Save</button>
+        </form>
+
+        <div id="message"></div>
+    </div>
+
+
+    <div class="scrolling-list">
+        <h2>Explorers who've joined us:</h2>
+        <div class="list-container">
+            <ul id="registrant-list"></ul>
+        </div>
+    </div>
+    
+    <br><br><br><br><br><br><br><br><br><br>
+    If you register a "Pure" Handle <i>(A Handle which is just a Popular Object's name and could be used as a branded account such as just "lucario" or "vulpix")</i>, your profile will be manually looked thru, to make sure it fits the handle. 
+
+    
+
+    <div id="faq-modal" class="modal hidden">
+        <div class="modal-content faq-modal-content">
+            <span id="close-faq" class="close-btn">&times;</span>
+            <div class="faq-container">
+                <div class="faq-questions">
+                    <ul id="faq-question-list">
+                    </ul>
+                </div>
+                <div class="faq-answers">
+                    <div id="faq-answer-content">
+                        <h2>Welcome to the HELP! menu :D</h2>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-popup" class="close-btn">&times;</span>
+            <h2>What is a DID? How do I get one?</h2>
+            <p>
+                A DID is a Public Identifier that is used to point a Handle to your Account. If you don't know how to acquire one, <br> <strong>Open your Bluesky Settings > Change Handle > I have a custom Domain > Copy Domain Values.</strong>
+            </p>
+        </div>
+    </div>
+
+    <script src="/assets/scripts/name_claim.js"></script>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bsky Handle Getter</title>
+    <link rel="stylesheet" href="/assets/styles/name_claim.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body>
+    <div class="container">
+        <button type="button" id="help-btn" class="help-btn">HELP!</button>
+        <h2>We are currently under Maintanance!</h2>
+        
+        <h3>The server is having some issues, so registering new handles is currently disablded. Try again tomorrow!</h3>
+        <p><strong>If your handle has been invalidated, you have to re-apply it in the Bluesky Settings!</strong></p>
+        <h4>If you are a Content Creator and you need a handle urgently, please message @YOUR_USERNAME on discord for Support!</h4>
+        
+    
+
+
+        <div id="message"></div>
+    </div>
+    
+
+    <div id="faq-modal" class="modal hidden">
+        <div class="modal-content faq-modal-content">
+            <span id="close-faq" class="close-btn">&times;</span>
+            <div class="faq-container">
+                <div class="faq-questions">
+                    <ul id="faq-question-list">
+                    </ul>
+                </div>
+                <div class="faq-answers">
+                    <div id="faq-answer-content">
+                        <h2>Welcome to the HELP! menu :D</h2>
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="popup-modal" class="modal hidden">
+        <div class="modal-content">
+            <span id="close-popup" class="close-btn">&times;</span>
+            <h2>What is a DID? How do I get one?</h2>
+            <p>
+                A DID is a Public Identifier that is used to point a Handle to your Account. If you don't know how to acquire one, <br> <strong>Open your Bluesky Settings > Change Handle > I have a custom Domain > Copy Domain Values.</strong>
+            </p>
+        </div>
+    </div>
+
+    <script src="/assets/scripts/name_claim.js"></script>
+</body>
+</html>

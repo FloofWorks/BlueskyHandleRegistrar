@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Furo's Database Drawer</title>
+    <style>
+        body {
+            background-color: #1e1e2f;
+            color: #c7c7d3;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        .dropdown-button-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        select, button {
+            padding: 10px;
+            background-color: #2e2e3e;
+            color: #c7c7d3;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+        button:hover {
+            background-color: #3e3e5e;
+            cursor: pointer;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: #2e2e3e;
+        }
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #3e3e5e;
+        }
+        th {
+            cursor: pointer;
+        }
+        th:hover {
+            background-color: #3e3e5e;
+        }
+        input[type="text"] {
+            padding: 10px;
+            margin-top: 20px;
+            width: 100%;
+            background-color: #2e2e3e;
+            color: #c7c7d3;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+        }
+        .modal {
+            display: none; 
+            position: fixed;
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #1e1e2f;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #3e3e5e;
+            width: 80%;
+            max-width: 500px;
+            color: #c7c7d3;
+            border-radius: 5px;
+        }
+        .close-button {
+            color: #c7c7d3;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-button:hover {
+            color: #ffffff;
+        }
+        .modal-content label {
+            display: block;
+            margin-top: 10px;
+        }
+        .modal-content input {
+            width: 95%;
+            padding: 10px;
+            background-color: #2e2e3e;
+            color: #c7c7d3;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .modal-content button {
+            padding: 10px;
+            background-color: #2e2e3e;
+            color: #c7c7d3;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .modal-content button:hover {
+            background-color: #3e3e5e;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="dropdown-button-container">
+            <select id="tarDomSelect">
+                <option value="pmd.social">pmd.social</option>
+                <option value="lucario.social">lucario.social</option>
+                <option value="riolu.social">riolu.social</option>
+                <option value="renamon.social">renamon.social</option>
+            </select>
+            <button id="loadButton">Load Data</button>
+        </div>
+        <input type="text" id="searchInput" placeholder="Search...">
+        <table id="dataTable">
+            <thead>
+                <tr>
+                    <th data-column="username">Username</th>
+                    <th data-column="domain">Domain</th>
+                    <th data-column="email">Email</th>
+                    <th data-column="did">DID</th>
+                    <th data-column="date">Date</th>
+                    <th data-column="state">State</th> 
+                    <th>Action</th> 
+                </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+    <div id="updateUserModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Update User Details for <span id="modalOldUsername"></span></h2>
+            <label for="usernameInput">Username:</label>
+            <input type="text" id="usernameInput">
+            <label for="emailInput">Email:</label>
+            <input type="text" id="emailInput">
+            <label for="didInput">DID:</label>
+            <input type="text" id="didInput">
+            <label for="stateInput">State:</label>
+            <input type="text" id="stateInput">
+            <label for="stateMessageInput">State Message:</label>
+            <input type="text" id="stateMessageInput">
+            <button id="updateUserButton">Update</button>
+        </div>
+    </div>
+
+
+    <script>
+        function readCookie(name) {
+            let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+            if (match) return match[2];
+            return null;
+        }
+
+        function formatDate(timestamp) {
+            if (timestamp === 0) return 'N/A';
+            let date = new Date(timestamp * 1000);
+            return date.toLocaleDateString() + ' ' + date.toLocaleTimeString();
+        }
+
+        document.getElementById('loadButton').addEventListener('click', () => {
+            const tarDom = document.getElementById('tarDomSelect').value;
+            const devToken = readCookie('dev_token');
+
+            if (!devToken) {
+                alert('Unauthorized!');
+                return;
+            }
+
+            fetch(`/api/getDataByDomain/${tarDom}`, {
+                headers: {
+                    'authorization': devToken
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    populateTable(data.data);
+                } else {
+                    alert('Failed to load data!');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+
+        let tableData = [];
+
+        function populateTable(data) {
+            tableData = data; 
+            const tbody = document.querySelector('#dataTable tbody');
+            tbody.innerHTML = ''; 
+
+            data.forEach(item => {
+                const tr = document.createElement('tr');
+
+                const stateColors = {
+                    'NV': '#1f1f1f', //not verified
+                    'V': '#1e1e2f', //verified
+                    'VR': '#ea6d64', //verification rejected
+                    'NV_F': '#8c6a59', //not verified Flat Handle
+                    'V_F': '#6f8c58', //verified Flat Handle
+                    'VR_F': '#e34949', //verification rejected Flat
+                    'VP': '#3e3e5e', //verification processed
+                    'AV': '536e7c' //awaiting verification
+                };
+
+                const rowColor = stateColors[item.state] || '#2e2e3e'; 
+                tr.style.backgroundColor = rowColor;
+
+                const usernameTd = document.createElement('td');
+                usernameTd.textContent = item.username;
+                tr.appendChild(usernameTd);
+
+                const domainTd = document.createElement('td');
+                domainTd.textContent = item.domain;
+                tr.appendChild(domainTd);
+
+                const emailTd = document.createElement('td');
+                emailTd.textContent = item.email;
+                tr.appendChild(emailTd);
+
+                const didTd = document.createElement('td');
+                didTd.textContent = item.did;
+                tr.appendChild(didTd);
+
+                const dateTd = document.createElement('td');
+                dateTd.textContent = formatDate(item.date);
+                tr.appendChild(dateTd);
+
+                const stateTd = document.createElement('td');
+                stateTd.textContent = item.state || 'N/A';
+                tr.appendChild(stateTd);
+
+                const actionTd = document.createElement('td');
+                const editIcon = document.createElement('span');
+                editIcon.textContent = '✏️'; 
+                editIcon.style.cursor = 'pointer';
+
+                editIcon.addEventListener('click', () => {
+                    openUpdateUserPopup(item);
+                });
+
+                actionTd.appendChild(editIcon);
+                tr.appendChild(actionTd);
+
+                tbody.appendChild(tr);
+            });
+        }
+
+
+        document.getElementById('searchInput').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const filteredData = tableData.filter(item => {
+                return Object.values(item).some(
+                    value => value.toString().toLowerCase().includes(searchTerm)
+                );
+            });
+            populateTable(filteredData);
+        });
+
+        document.querySelectorAll('#dataTable th').forEach(header => {
+            header.addEventListener('click', () => {
+                const column = header.getAttribute('data-column');
+                if (!column) return; 
+                const direction = header.getAttribute('data-direction') || 'asc';
+
+                tableData.sort((a, b) => {
+                    if (a[column] < b[column]) return direction === 'asc' ? -1 : 1;
+                    if (a[column] > b[column]) return direction === 'asc' ? 1 : -1;
+                    return 0;
+                });
+
+                header.setAttribute('data-direction', direction === 'asc' ? 'desc' : 'asc');
+                populateTable(tableData);
+            });
+        });
+
+        function openUpdateStatePopup(item) {
+            const modal = document.getElementById('updateStateModal');
+            const modalUsername = document.getElementById('modalUsername');
+            const stateInput = document.getElementById('stateInput');
+            const stateMessageInput = document.getElementById('stateMessageInput');
+            const updateStateButton = document.getElementById('updateStateButton');
+            const closeButton = document.querySelector('.close-button');
+
+            modalUsername.textContent = item.username;
+            stateInput.value = item.state || '';
+            stateMessageInput.value = item.state_message || '';
+
+            modal.style.display = 'block';
+
+            closeButton.onclick = function() {
+                modal.style.display = 'none';
+            };
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+
+            updateStateButton.onclick = function() {
+                const newState = stateInput.value.trim();
+                const newStateMessage = stateMessageInput.value.trim();
+
+
+                updateUserState(item.username, newState, newStateMessage);
+
+                modal.style.display = 'none';
+            };
+        }
+
+        function updateUserState(username, state, state_message) {
+            const devToken = readCookie('dev_token');
+
+            if (!devToken) {
+                alert('Unauthorized!');
+                return;
+            }
+
+            const data = {
+                username: username,
+                state: state,
+                state_message: state_message
+            };
+
+            fetch('/api/updateUserState', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': devToken
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('User state updated successfully.');
+                    document.getElementById('loadButton').click();
+                } else {
+                    alert('Failed to update user state.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+
+
+        function openUpdateUserPopup(item) {
+            const modal = document.getElementById('updateUserModal');
+            const modalOldUsername = document.getElementById('modalOldUsername');
+            const usernameInput = document.getElementById('usernameInput');
+            const emailInput = document.getElementById('emailInput');
+            const didInput = document.getElementById('didInput');
+            const stateInput = document.getElementById('stateInput');
+            const stateMessageInput = document.getElementById('stateMessageInput');
+            const updateUserButton = document.getElementById('updateUserButton');
+            const closeButton = document.querySelector('.close-button');
+
+            modalOldUsername.textContent = item.username;
+            usernameInput.value = item.username || '';
+            emailInput.value = item.email || '';
+            didInput.value = item.did || '';
+            stateInput.value = item.state || '';
+            stateMessageInput.value = item.state_message || '';
+
+            modal.style.display = 'block';
+
+            closeButton.onclick = function() {
+                modal.style.display = 'none';
+            };
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            };
+
+            updateUserButton.onclick = function() {
+                const newUsername = usernameInput.value.trim();
+                const newEmail = emailInput.value.trim();
+                const newDid = didInput.value.trim();
+                const newState = stateInput.value.trim();
+                const newStateMessage = stateMessageInput.value.trim();
+
+                updateUser(item.username, newUsername, newEmail, newDid, newState, newStateMessage);
+
+                modal.style.display = 'none';
+            };
+        }
+
+        function updateUser(oldUsername, username, email, did, state, state_message) {
+            const devToken = readCookie('dev_token');
+
+            if (!devToken) {
+                alert('Unauthorized!');
+                return;
+            }
+
+            const data = {
+                old_username: oldUsername,
+                username: username,
+                email: email,
+                did: did,
+                state: state,
+                state_message: state_message
+            };
+
+            fetch('/api/updateUser', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'authorization': devToken
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    alert('User updated successfully.');
+                    document.getElementById('loadButton').click();
+                } else {
+                    alert('Failed to update user: ' + result.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+
+</body>
+</html>
+

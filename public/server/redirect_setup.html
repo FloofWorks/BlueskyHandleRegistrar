@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bsky Redirect Setup</title>
+    <link rel="stylesheet" href="/assets/styles/name_claim.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+    <style>
+        body {
+            padding-right: 0;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: #3498db;
+            border: none;
+            color: #FFFFFF;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        input[type="url"] {
+            width: 100%;
+            padding: 12px;
+            box-sizing: border-box;
+            border: 2px solid #364B61;
+            border-radius: 4px;
+            background-color: #364B61;
+            color: #FFFFFF;
+            font-size: 16px;
+            display: none;
+        }
+
+        input[type="url"]::placeholder {
+            color: #B0C4DE;
+        }
+
+        .form-group.hidden input[type="url"] {
+            display: none;
+        }
+
+        .form-group:not(.hidden) input[type="url"] {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <h1>Bsky Redirect Setup</h1>
+        
+        <div style="background-color: rgba(255, 221, 0, 0.178); color: #ffffff; border: 1px solid #FFD700; padding: 10px; margin-bottom: 20px; border-radius: 5px; display: flex; align-items: center;">
+            <span style="font-weight: bold; font-size: 20px; margin-right: 10px;">!</span>
+            <span>IMPORTANT!! You will be sent a verification code on Bluesky. Your DMs MUST be Open for Everyone, so the Auth-Bot can send you your verification code. After the verification, you can close your DMs again.</span>
+        </div>
+
+        <form id="redirectSetupForm">
+            <div class="form-group">
+                <label for="currentHandle">Enter your current handle</label>
+                <input type="text" id="currentHandle" name="currentHandle" placeholder="Your current handle (e.g., lucario.social)" required>
+            </div>
+
+            <div class="captcha-container">
+                <div class="g-recaptcha" data-sitekey="6LdsGWwqAAAAAKpRBdGpo9w28Hs_H0tGU_HwLhEC"></div>
+            </div>
+
+            <button type="button" id="requestCodeBtn">Request Code</button>
+        </form>
+
+        <div id="codeModal" class="modal hidden">
+            <div class="modal-content">
+                <span id="closeCodeModal" class="close-btn">&times;</span>
+                <h2>Enter Your Secret Code</h2>
+                <div class="form-group">
+                    <input type="text" id="secretCode" placeholder="Enter the code" required>
+                    <div id="timer" class="status-message">Code expires in: <span id="timerCountdown">30</span>s</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="redirectType">Select Redirect Option</label>
+                    <select id="redirectType">
+                        <option value="bsky">Redirect to My Bluesky Page</option>
+                        <option value="custom">Custom Redirect...</option>
+                    </select>
+                </div>
+
+                <div id="customRedirectGroup" class="form-group hidden">
+                    <label for="customRedirect">Enter Custom Redirect URL</label>
+                    <input type="url" id="customRedirect" placeholder="https://example.com">
+                </div>
+
+                <button type="btn-1" id="saveRedirectBtn">Save</button>
+            </div>
+        </div>
+
+        <div id="expiredCodeModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>The code expired</h2>
+                <p>Refresh the page and try again.</p>
+                <button id="refreshPageBtn">Refresh Page</button>
+            </div>
+        </div>
+    </div>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    &nbsp;&nbsp;&nbsp;&nbsp;Thank you for using my service :D
+    <br>
+    &nbsp;&nbsp;&nbsp;&nbsp;In Case of Any Error, Send an Email to YOUR_EMAIL_HERE!
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const requestCodeBtn = document.getElementById('requestCodeBtn');
+            const redirectType = document.getElementById('redirectType');
+            const customRedirectGroup = document.getElementById('customRedirectGroup');
+            const saveRedirectBtn = document.getElementById('saveRedirectBtn');
+            const closeCodeModal = document.getElementById('closeCodeModal');
+            const codeModal = document.getElementById('codeModal');
+            const expiredCodeModal = document.getElementById('expiredCodeModal');
+            const refreshPageBtn = document.getElementById('refreshPageBtn');
+            const timerCountdown = document.getElementById('timerCountdown');
+
+            let timer;
+            const codeExpirationTime = 30; // seconds
+
+            function startTimer() {
+                let timeLeft = codeExpirationTime;
+                timer = setInterval(() => {
+                    timeLeft -= 1;
+                    timerCountdown.textContent = timeLeft;
+                    if (timeLeft <= 0) {
+                        clearInterval(timer);
+                        codeModal.classList.add('hidden');
+                        expiredCodeModal.classList.remove('hidden');
+                    }
+                }, 1000);
+            }
+
+            requestCodeBtn.addEventListener('click', async () => {
+                const currentHandle = document.getElementById('currentHandle').value;
+                const captchaToken = grecaptcha.getResponse();
+
+                if (!currentHandle || !captchaToken) {
+                    alert('Please enter your handle and complete the captcha.');
+                    return;
+                }
+
+                try {
+                    const response = await fetch('/api/v1/getSecretCode/', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'captcha': captchaToken,
+                            'target-user': currentHandle
+                        }
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        codeModal.classList.remove('hidden');
+                        startTimer();
+                    } else {
+                        alert(result.message);
+                    }
+                } catch (error) {
+                    console.error('Error requesting code:', error);
+                }
+            });
+
+            redirectType.addEventListener('change', () => {
+                if (redirectType.value === 'custom') {
+                    customRedirectGroup.classList.remove('hidden');
+                } else {
+                    customRedirectGroup.classList.add('hidden');
+                }
+            });
+
+            saveRedirectBtn.addEventListener('click', async () => {
+                const secretCode = document.getElementById('secretCode').value;
+                const redirectOption = redirectType.value;
+                const customRedirect = document.getElementById('customRedirect').value;
+
+                if (!secretCode || (redirectOption === 'custom' && !customRedirect)) {
+                    alert('Please enter all required fields.');
+                    return;
+                }
+
+                const redirectURL = redirectOption === 'bsky' 
+                    ? 'https://bsky.app/profile/' + document.getElementById('currentHandle').value
+                    : customRedirect;
+
+                try {
+                    const response = await fetch('/api/v1/StoreUserSecret/', {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'auth': secretCode,
+                            'pass': redirectURL
+                        }
+                    });
+
+                    const result = await response.json();
+                    if (result.success) {
+                        alert('Redirect saved successfully!');
+                        window.location.reload();
+                    } else {
+                        alert(result.message);
+                    }
+                } catch (error) {
+                    console.error('Error saving redirect:', error);
+                }
+            });
+
+            closeCodeModal.addEventListener('click', () => {
+                codeModal.classList.add('hidden');
+                clearInterval(timer);
+            });
+
+            refreshPageBtn.addEventListener('click', () => {
+                window.location.reload();
+            });
+        });
+    </script>
+</body>
+</html>
