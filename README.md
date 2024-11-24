@@ -6,6 +6,7 @@
 3. [Registering](#registering)
 4. [Requirements](#requirements)
 5. [Installation](#installation)
+6. [FAQ](#faq)
 
 
 
@@ -163,6 +164,11 @@ How do you install? Good question!
 ### Edit the Frontend
 The frontend's files are located inside /public/server
 BE CAREFUL! the /public/server/scripts and /styles are public folders, and any files inside them can be requested at all times.<br><br><br>
+
+### FAQ
+Q: When Trying To fetch the /debug page, i get a popup saying "Unauthorized"!
+A: Create a new token in your browser, the name will be "dev_token" and the value will be your BACKEND_PASSWORD. The path needs to be /debug, and the [expiration date](https://youtu.be/GLlLQ3LmZWU?si=eMM3YTGjD7Xs6GMf) you can set as something in the far future! <br><br><br><br>
+
 This is my very first ever GitHub project! Please Give me feedback! :D
 <!--
 # Header 1
