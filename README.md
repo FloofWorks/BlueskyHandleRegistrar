@@ -2,7 +2,7 @@
 ---
 ### What is this?
 This is a collection of NodeJS Applications that Allow you to host a web-form, which people can fill out to register a bluesky handle on your domain.
-This also allows users to customize where "https://handle.domain.com" redirects, either a Custom URL or Their Bluesky Profile.
+This also allows users to customize where `https://handle.domain.com` redirects, either a Custom URL or Their Bluesky Profile.
 
 
 ### How does it work?
@@ -15,7 +15,7 @@ and the DNS Record exists, your handle is verified! :D But this is not the Verif
 
 #### Text File
 An alternative to the DNS Record check, is a simple web-request! Let's keep our example handle of "furo.lucairo.social", and say that the DNS Record Check failed, what does bluesky now?
-It sends a API-Request to "https://furo.lucario.social/.well-known/atproto-did", and expects a given DID to be returned. At it's simplest, the code for this would look like this:
+It sends a API-Request to `https://furo.lucario.social/.well-known/atproto-did`, and expects a given DID to be returned. At it's simplest, the code for this would look like this:
 ```js
 app.get('/.well-known/atproto-did', (req, res) => {
   res.status(200).send("did:plc:theDIDgoesHere");
@@ -103,7 +103,64 @@ To manually Verify a User, Open the /debug endpoint, find your target user, and 
 
 
 
+### What about Redirects?
+Redirects are a neat Feature! Since They technically register the subdomain from you, you can let them customize where "https://theirHandle.YourDomain.com" redirects!
+That's what the /redirect endpoint is for!
 
+When Setting up a Redirection, you must run the nodeJS application inside /BlueskyDMer/index.mjs!
+This nodeJS application is not public, and it's purpose is to DM Users their Unique 6 digit code to verify that THEY want to change the handle.
+
+
+## Requirements
+- You NEED to have a Wildcard SSL Certificate!!!!
+- NodeJS 20.12.1
+- NPM
+
+And These Node Packages:
+- express
+- path
+- cookie-parser
+- sqlite3
+- axios
+- util
+- dotenv
+- axios
+- url
+- @skyware/bot
+
+To install Node Packages, simply run `npm install <package name>`.
+To Get a Wildcard SSL Certificate, follow [this](https://certbot.eff.org/) guide!
+To Purchase a domain, you can find domains for sale [Here](https://www.godaddy.com)!
+To point the port 80 to your NodeJS Application Port, follow [this](https://medium.com/@adarsh-d/node-js-on-port-80-or-443-7083336af3b0) guide!
+
+
+## Installation
+How do you install? Good question!
+1. [Download The Latest Release]([https://example.com](https://github.com/FloofWorks/BlueskyHandleRegistrar/releases))
+2. Extract Into Any Folder on your Server
+3. Open The Root Folder
+4. Open index.mjs
+   1. Edit the "BACKEND_PASSWORD" value to a very strong password!
+   2. Edit the "secretKey" value to your Google Captcha Secret Key
+   3. Edit the "reservedUsernames" to set up some Pure Handles.
+   4. Edit the "reservedH" array to set up some Reserved Handles.
+5. Open The "BlueskyDMer" folder
+6. Open index.mjs
+   1. Edit the "secretKey" value to your Google Captcha Secret Key
+   2. Update the Cridentials to your Auht Bot
+   3. Update the botDID value to be the DID of your Auth Bot
+   4. Inside the "/api/StoreUserSecret/" endpoint, update the Authorisation Header sent to reflect your "BACKEND_PASSWORD".
+7. Now run index.mjs inside the root folder and inside the "BlueskyDMer" folder!
+8. You're all set up! visit http://localhost:62008/handle to view your Form
+
+### Edit the Frontend
+The frontend's files are located inside /public/server
+BE CAREFUL! the /public/server/scripts and /styles are public folders, and any files inside them can be requested at all times.
+
+
+
+This is my very first ever GitHub project! Please Give me feedback! :D
+<!--
 # Header 1
 ## Header 2
 ### Header 3
@@ -118,7 +175,7 @@ _Italic Text_
 ***Bold and Italic Text***
 
 
-[Link Text](https://example.com)
+[Download The Latest Release]([https://example.com](https://github.com/FloofWorks/BlueskyHandleRegistrar/releases))
 
 
 - Item 1
