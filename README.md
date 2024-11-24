@@ -3,16 +3,15 @@
 ### What is this?
 This is a collection of NodeJS Applications that Allow you to host a web-form, which people can fill out to register a bluesky handle on your domain.
 This also allows users to customize where `https://handle.domain.com` redirects, either a Custom URL or Their Bluesky Profile. <br>
-<br>
-<br>
+
 ### How does it work?
 When Bluesky Verifies any given handle, it uses one of two methods to verify.
-<br>
+
 #### DNS Record
 In this example, we want to verify the handle "furo.lucario.social". Our Domain is "lucario.social" and our handle is "furo", 
 so Bluesky Checks for a TXT Record at "_atproto.furo.lucario.social" which should return a DID value, that points to a users account. If the request is successful
 and the DNS Record exists, your handle is verified! :D But this is not the Verification method we are interested in!
-<br>
+
 #### Text File
 An alternative to the DNS Record check, is a simple web-request! Let's keep our example handle of "furo.lucairo.social", and say that the DNS Record Check failed, what does bluesky now?
 It sends a API-Request to `https://furo.lucario.social/.well-known/atproto-did`, and expects a given DID to be returned. At it's simplest, the code for this would look like this:
@@ -21,7 +20,7 @@ app.get('/.well-known/atproto-did', (req, res) => {
   res.status(200).send("did:plc:theDIDgoesHere");
 }
 ```
-<br>
+
 But You want to let people register their own handles and use your domain for that! How could that work?
 The answer? Databases!
 <br>
