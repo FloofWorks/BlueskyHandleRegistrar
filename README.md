@@ -18,6 +18,9 @@
 This is a collection of NodeJS Applications that Allow you to host a web-form, which people can fill out to register a bluesky handle on your domain.
 This also allows users to customize where `https://handle.domain.com` redirects, either a Custom URL or Their Bluesky Profile. <br>
 
+### Example
+You can see what it would look like in practice, [HERE](https://get.pmd.social/handle)! 
+
 ### How does it work?
 When Bluesky Verifies any given handle, it uses one of two methods to verify.
 
