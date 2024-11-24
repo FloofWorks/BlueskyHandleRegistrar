@@ -23,8 +23,7 @@ app.get('/.well-known/atproto-did', (req, res) => {
 
 But You want to let people register their own handles and use your domain for that! How could that work?
 The answer? Databases!
-<br>
-<br>
+
 ### Backend (scary)
 Inside the backend, we have a couple of endpoints, but most importantly these:
 - / (root)
@@ -71,19 +70,18 @@ API Endpoint that serves all users' data that match the given domain.
 ```markdown
 API Endpoint that returns a user that matches the handle.
 ```
-<br>
-<br>
+
 ### Registering
 When a user Registers a handle, they have to input their desired handle, an E-Mail, and their Bluesky Account DID. The server has a string array for "Pure" and "Reserved" Handles.<br>
-<br>
+
 #### Pure Handles
 A Pure handle is any handle where the handle reflects a popular object's name, or a dictionary word, such as "Lucario" or "Tree". <br>
 These handles require manual Verification by you, something you can do via the /debug endpoint.<br>
-<br>
+
 #### Reserved Handles
 Do you have friends? Surely you'd like to reserve them some handles! To make sure nobody registers with a handle that should belong to your friend, <br>
 the server refuses to let people register a reserved handle.<br>
-<br>
+
 #### How does Verification Work?
 Internally, every user has a State. <br>
 ```markdown
@@ -96,13 +94,11 @@ PENDING = For Debug Purposes
 ```
 When a user registers a Non-Pure handle, their handle's state is automatically set to "V".<br>
 When a user registers a Pure Handle, their handle's state is set to NV.<br>
-<br>
+
 The server ONLY Responds to any endpoint requests with users that are either in the state "V" or "V_F".<br>
 To manually Verify a User, Open the /debug endpoint, find your target user, <br>
 and Click the Pen Icon and Change their state to "V_F".<br>
-<br>
-<br>
-<br>
+
 ### What about Redirects?
 Redirects are a neat Feature! Since They technically register the subdomain from you, <br>
 you can let them customize where `https://theirHandle.YourDomain.com` redirects!<br>
@@ -111,13 +107,12 @@ That's what the /redirect endpoint is for!<br>
 When Setting up a Redirection, you must run the nodeJS application inside /BlueskyDMer/index.mjs!<br>
 This nodeJS application is not public, <br>
 and it's purpose is to DM Users their Unique 6 digit code to verify that THEY want to change the handle.<br>
-<br>
-<br>
+
 ## Requirements
 - You NEED to have a Wildcard SSL Certificate!!!!
 - NodeJS 20.12.1
 - NPM
-<br>
+
 And These Node Packages on both NodeJS Apps:
 - express
 - path
@@ -129,13 +124,12 @@ And These Node Packages on both NodeJS Apps:
 - axios
 - url
 - @skyware/bot
-<br>
+
 To install Node Packages, simply run `npm install <package name>`.<br>
 To Get a Wildcard SSL Certificate, follow [this](https://certbot.eff.org/) guide!<br>
 To Purchase a domain, you can find domains for sale [Here](https://www.godaddy.com)!<br>
 To point the port 80 to your NodeJS Application Port, follow [this](https://medium.com/@adarsh-d/node-js-on-port-80-or-443-7083336af3b0) guide!<br>
-<br>
-<br>
+
 ## Installation
 How do you install? Good question!
 1. [Download The Latest Release]([https://example.com](https://github.com/FloofWorks/BlueskyHandleRegistrar/releases))
@@ -158,9 +152,7 @@ How do you install? Good question!
 ### Edit the Frontend
 The frontend's files are located inside /public/server
 BE CAREFUL! the /public/server/scripts and /styles are public folders, and any files inside them can be requested at all times.
-<br>
-<br>
-<br>
+
 This is my very first ever GitHub project! Please Give me feedback! :D
 <!--
 # Header 1
