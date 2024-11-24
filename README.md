@@ -119,7 +119,7 @@ and it's purpose is to DM Users their Unique 6 digit code to verify that THEY wa
 - NodeJS 20.12.1
 - NPM
 
-And These Node Packages:
+And These Node Packages on both NodeJS Apps:
 - express
 - path
 - cookie-parser
