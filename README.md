@@ -160,7 +160,7 @@ How do you install? Good question!
 1. [Download the latest Release](https://github.com/FloofWorks/BlueskyHandleRegistrar/releases)
 2. Extract Into Any Folder on your Server
 3. Open The Root Folder
-4. Open index.mjs
+4. Open index.mjs 
    1. Edit the "BACKEND_PASSWORD" value to a very strong password!
    2. Edit the "secretKey" value to your Google Captcha Secret Key
    3. Edit the "reservedUsernames" to set up some Pure Handles.
@@ -172,7 +172,7 @@ How do you install? Good question!
    3. Update the botDID value to be the DID of your Auth Bot
    4. Inside the "/api/StoreUserSecret/" endpoint, update the Authorisation Header sent to reflect your "BACKEND_PASSWORD".
 7. Open `root/public/server/scripts/name_claim.js` and edit the "FAQ" fields and other strings, that reference "YOUR_EMAIL_HERE"
-8. Now run index.mjs inside the root folder and inside the "BlueskyDMer" folder!
+8. Now run index.mjs inside the root folder and inside the "BlueskyDMer" folder using `node index.mjs`! 
 9. You're all set up! visit http://localhost:62008/handle to view your Form
 
 ### Edit the Frontend
