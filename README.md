@@ -2,6 +2,7 @@
 ---
 ### What is this?
 This is a collection of NodeJS Applications that Allow you to host a web-form, which people can fill out to register a bluesky handle on your domain.
+This also allows users to customize where "https://handle.domain.com" redirects, either a Custom URL or Their Bluesky Profile.
 
 
 ### How does it work?
@@ -29,49 +30,76 @@ The answer? Databases!
 Inside the backend, we have a couple of endpoints, but most importantly these:
 - / (root)
 ```markdown
-npm install sex
+The Root Path is used to redirect people to the their handle redirection target URL, or simply their bluesky Profile
 ```
 - /handle
 ```markdown
-npm install sex
+This serves the Form to Register a handle
 ```
 - /redirect
 ```markdown
-npm install sex
+This serves a form to Setup where the https://handle.domain.com URL redirects.
 ```
 - /debug
 ```markdown
-npm install sex
+This serves a Debug Page to View Registrants' data and modify it.
 ```
 - /api/register
 ```markdown
-npm install sex
+API Endpoint To Register
 ```
 - /.well-known/atproto-did
 ```markdown
-npm install sex
+Bluesky Endpoint that serves a given handle's DID value
 ```
 - /api/public/registrants
 ```markdown
-npm install sex
+API Endpoint that serves all registrants that have been verified.
 ```
 - /api/getDataByUser/:username
 ```markdown
-npm install sex
+API Endpoint that serves all users Handles that match the username.
 ```
 - /api/getDataByDid/:did
 ```markdown
-npm install sex
+API Endpoint that serves all users that match the DID.
 ```
 - /api/getDataByDomain/:domain
 ```markdown
-npm install sex
+API Endpoint that serves all users' data that match the given domain.
 ```
 - /api/getDataByHandle/:handle
 ```markdown
-npm install sex
+API Endpoint that returns a user that matches the handle.
 ```
 
+
+### Registering
+When a user Registers a handle, they have to input their desired handle, an E-Mail, and their Bluesky Account DID. The server has a string array for "Pure" and "Reserved" Handles.
+
+#### Pure Handles
+A Pure handle is any handle where the handle reflects a popular object's name, or a dictionary word, such as "Lucario" or "Tree". 
+These handles require manual Verification by you, something you can do via the /debug endpoint.
+
+#### Reserved Handles
+Do you have friends? Surely you'd like to reserve them some handles! To make sure nobody registers with a handle that should belong to your friend, 
+the server refuses to let people register a reserved handle.
+
+#### How does Verification Work?
+Internally, every user has a State. 
+```markdown
+V = Verified
+NV = Not Verified
+V_F = Verified Pure Handle
+VR = Verification Rejected
+VR_F = Pure Handle Verification Rejected
+PENDING = For Debug Purposes
+```
+When a user registers a Non-Pure handle, their handle's state is automatically set to "V".
+When a user registers a Pure Handle, their handle's state is set to NV.
+
+The server ONLY Responds to any endpoint requests with users that are either in the state "V" or "V_F".
+To manually Verify a User, Open the /debug endpoint, find your target user, and Click the Pen Icon and Change their state to "V_F".
 
 
 
