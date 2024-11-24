@@ -99,16 +99,19 @@ When a user registers a Non-Pure handle, their handle's state is automatically s
 When a user registers a Pure Handle, their handle's state is set to NV.
 
 The server ONLY Responds to any endpoint requests with users that are either in the state "V" or "V_F".
-To manually Verify a User, Open the /debug endpoint, find your target user, and Click the Pen Icon and Change their state to "V_F".
+To manually Verify a User, Open the /debug endpoint, find your target user, 
+and Click the Pen Icon and Change their state to "V_F".
 
 
 
 ### What about Redirects?
-Redirects are a neat Feature! Since They technically register the subdomain from you, you can let them customize where "https://theirHandle.YourDomain.com" redirects!
+Redirects are a neat Feature! Since They technically register the subdomain from you, 
+you can let them customize where `https://theirHandle.YourDomain.com` redirects!
 That's what the /redirect endpoint is for!
 
 When Setting up a Redirection, you must run the nodeJS application inside /BlueskyDMer/index.mjs!
-This nodeJS application is not public, and it's purpose is to DM Users their Unique 6 digit code to verify that THEY want to change the handle.
+This nodeJS application is not public, 
+and it's purpose is to DM Users their Unique 6 digit code to verify that THEY want to change the handle.
 
 
 ## Requirements
