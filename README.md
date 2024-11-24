@@ -89,7 +89,7 @@ API Endpoint that returns a user that matches the handle.
 When a user Registers a handle, they have to input their desired handle, an E-Mail, and their Bluesky Account DID. The server has a string array for "Pure" and "Reserved" Handles.<br>
 
 
-![Alt Text](https://imgur.com/a/joQGSQJ)
+![Alt Text](https://i.imgur.com/X9QsRCC.png)
 
 
 #### Pure Handles
