@@ -1,5 +1,3 @@
-###### Download Not available at the moment! Come Back Soon!
----
 # Bluesky Handle Registrar
 
 ## Contents
