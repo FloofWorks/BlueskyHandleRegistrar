@@ -38,6 +38,8 @@ app.get('/.well-known/atproto-did', (req, res) => {
 But You want to let people register their own handles and use your domain for that! How could that work?
 The answer? Databases!
 
+![Alt Text](https://i.imgur.com/zA7h6BX.png)
+
 ### Backend (scary)
 Inside the backend, we have a couple of endpoints, but most importantly these:
 - / (root)
@@ -110,6 +112,9 @@ VR = Verification Rejected
 VR_F = Pure Handle Verification Rejected
 PENDING = For Debug Purposes
 ```
+
+![Alt Text](https://i.imgur.com/i9dgveH.png)
+
 When a user registers a Non-Pure handle, their handle's state is automatically set to "V".<br>
 When a user registers a Pure Handle, their handle's state is set to NV.<br>
 
@@ -121,6 +126,8 @@ and Click the Pen Icon and Change their state to "V_F".<br>
 Redirects are a neat Feature! Since They technically register the subdomain from you, <br>
 you can let them customize where `https://theirHandle.YourDomain.com` redirects!<br>
 That's what the /redirect endpoint is for!<br>
+
+![Alt Text](https://i.imgur.com/v9Tvvzw.png)
 
 When Setting up a Redirection, you must run the nodeJS application inside /BlueskyDMer/index.mjs!<br>
 This nodeJS application is not public, <br>
