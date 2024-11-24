@@ -171,8 +171,9 @@ How do you install? Good question!
    2. Update the Cridentials to your Auht Bot
    3. Update the botDID value to be the DID of your Auth Bot
    4. Inside the "/api/StoreUserSecret/" endpoint, update the Authorisation Header sent to reflect your "BACKEND_PASSWORD".
-7. Now run index.mjs inside the root folder and inside the "BlueskyDMer" folder!
-8. You're all set up! visit http://localhost:62008/handle to view your Form
+7. Open `root/public/server/scripts/name_claim.js` and edit the "FAQ" fields and other strings, that reference "YOUR_EMAIL_HERE"
+8. Now run index.mjs inside the root folder and inside the "BlueskyDMer" folder!
+9. You're all set up! visit http://localhost:62008/handle to view your Form
 
 ### Edit the Frontend
 The frontend's files are located inside /public/server
