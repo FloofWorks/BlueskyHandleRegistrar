@@ -1,4 +1,15 @@
 # Bluesky Handle Registrar
+
+## Table of Contents
+1. [What is this?](#what-is-this)
+2. [Backend](#backend-scary)
+3. [Registering](#registering)
+4. [Requirements](#requirements)
+5. [Installation](#installation)
+
+
+
+
 ---
 ### What is this?
 This is a collection of NodeJS Applications that Allow you to host a web-form, which people can fill out to register a bluesky handle on your domain.
@@ -151,8 +162,7 @@ How do you install? Good question!
 
 ### Edit the Frontend
 The frontend's files are located inside /public/server
-BE CAREFUL! the /public/server/scripts and /styles are public folders, and any files inside them can be requested at all times.
-
+BE CAREFUL! the /public/server/scripts and /styles are public folders, and any files inside them can be requested at all times.<br><br><br>
 This is my very first ever GitHub project! Please Give me feedback! :D
 <!--
 # Header 1
