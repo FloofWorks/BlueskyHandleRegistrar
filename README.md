@@ -1,6 +1,6 @@
 # Bluesky Handle Registrar
 
-## Table of Contents
+## Contents
 1. [What is this?](#what-is-this)
 2. [Backend](#backend-scary)
 3. [Registering](#registering)
