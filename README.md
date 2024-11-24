@@ -146,7 +146,7 @@ To point the port 80 to your NodeJS Application Port, follow [this](https://medi
 
 ## Installation
 How do you install? Good question!
-1. [Release]([https://example.com](https://github.com/FloofWorks/BlueskyHandleRegistrar/releases))
+1. [Release](https://github.com/FloofWorks/BlueskyHandleRegistrar/releases)
 2. Extract Into Any Folder on your Server
 3. Open The Root Folder
 4. Open index.mjs
