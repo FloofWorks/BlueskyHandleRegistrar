@@ -6,8 +6,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "FuroFloof",
+  "license": "Apache-2.0",
   "description": "",
   "dependencies": {
     "@skyware/bot": "^0.3.7",
